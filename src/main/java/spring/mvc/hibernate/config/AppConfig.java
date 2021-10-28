@@ -1,17 +1,16 @@
 package spring.mvc.hibernate.config;
 
-import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import javax.persistence.EntityManagerFactory;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -35,31 +34,35 @@ public class AppConfig {
         return dataSource;
     }
 
-    private HibernateJpaVendorAdapter vendorAdapter() {
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setShowSql(true);
-        return vendorAdapter;
-    }
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManager() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter());
-        entityManagerFactoryBean.setDataSource(getDataSource());
-        entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        entityManagerFactoryBean.setPackagesToScan("spring.mvc.hibernate.model");
-
-        Properties props = new Properties();
-        props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        props.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-
-        entityManagerFactoryBean.setJpaProperties(props);
-        return entityManagerFactoryBean;
-    }
     @Bean
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManager().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean lemf
+                = new LocalContainerEntityManagerFactoryBean();
+        lemf.setDataSource(getDataSource());
+        lemf.setPackagesToScan(new String[]{"spring.mvc.hibernate.model"});
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        lemf.setJpaVendorAdapter(vendorAdapter);
+        lemf.setJpaProperties(additionalProperties());
+        return lemf;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.show_sql", "true");
+        return properties;
     }
 }

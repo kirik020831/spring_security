@@ -5,9 +5,15 @@ import spring.mvc.hibernate.model.User;
 import java.util.List;
 
 public interface UserDAO {
-//    void add(User user);
 
     List<User> listUsers();
 
-//    List<User> getUserByCar(String model, int series);
+    void saveUser(User user);
+
+    User getById(int id);
+
+    void update(User user);
+
+    void delete(int id);
+
 }

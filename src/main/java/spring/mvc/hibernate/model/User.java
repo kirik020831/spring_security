@@ -1,4 +1,5 @@
 package spring.mvc.hibernate.model;
+
 import javax.persistence.*;
 
 @Entity

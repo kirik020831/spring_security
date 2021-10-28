@@ -3,8 +3,8 @@ package spring.mvc.hibernate.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import spring.mvc.hibernate.dao.UserDaoImp;
 import spring.mvc.hibernate.model.User;
 import spring.mvc.hibernate.service.UserService;
@@ -12,7 +12,6 @@ import spring.mvc.hibernate.service.UserService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -21,10 +20,42 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String showAllUser(Model model) {
         List<User> allUsers = userService.listUsers();
         model.addAttribute("allUs", allUsers);
         return "all-users";
+    }
+
+    @GetMapping("/addNewUser")
+    public String addNewUser(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "user-info";
+    }
+
+    @PostMapping("/saveUser")
+    public String saveUser(@ModelAttribute("user") User user) {
+        userService.saveUser(user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable("id") int id, ModelMap model) {
+        User user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "edit-user";
+    }
+
+    @PatchMapping("/edit/{id}") //PatchMapping
+    public String editUser(@ModelAttribute User user) {
+        userService.update(user);
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") int id) {
+        userService.delete(id);
+        return "redirect:/";
     }
 }
