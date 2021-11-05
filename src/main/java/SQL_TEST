@@ -2,9 +2,10 @@ ADD USERS SQL:
 
 INSERT INTO usertest.users (email,name,lastName,password,username)
 VALUES
-('maxim02@list.ru','Maxim','Antonov','max','max'),
-('vlad@mail.ru','Vlad','Markov','vlad','vlad');
+('maxim02@list.ru','Maxim','Antonov','$2a$12$rrPP52T4oI69L7Ih7pBI2Oh8fLtsOmE3KQzIqAURib5zOs1xRqowK','max'),
+('vlad@mail.ru','Vlad','Markov','$2a$12$4ubvjxnZANYa90hdgwrVOOC1Bl.fH56qE8cbRguFuVmrNQoJ2nGma','vlad');
 
+password: max,vlad
 ADD ROLES SQL:
 
 INSERT INTO usertest.roles (role)
