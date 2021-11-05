@@ -4,32 +4,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>User Page</title>
 </head>
 <body>
-<h1>Table of Users</h1>
+<h1>Table of User</h1>
 <table border="1" cellpadding="7">
     <tr>
         <th> Id</th>
+        <th> Username</th>
         <th> Name</th>
         <th> Last Name</th>
         <th> Email</th>
-        <th> Update User</th>
+        <th> Roles</th>
     </tr>
-    <tr th:each="user : ${allUs}">
+    <tr>
         <td th:utext="${user.getId()}"></td>
+        <td th:utext="${user.getUsername()}"></td>
         <td th:utext="${user.getFirstName()}"></td>
         <td th:utext="${user.getLastName()}"></td>
         <td th:utext="${user.getEmail()}"></td>
-        <td><a th:href="@{/edit/{id}(id=${user.getId()})}">Update</a></td>
-        <td>
-            <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.getId()})}">
-                <input type="submit" value="Delete">
-            </form>
-        </td>
+        <td th:each="role : ${roles}">
+            <p th:text="${role.getRole()}"></p></td>
     </tr>
 </table>
 <br>
-<input type="button" value="Add User" onclick="window.location.href='addNewUser'"/>
+<h4>Authorization page: </h4>
+<button>
+    <a th:href="@{/logout}">Logout</a>
+</button>
 </body>
 </html>

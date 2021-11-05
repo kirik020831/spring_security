@@ -1,0 +1,20 @@
+ADD USERS SQL:
+
+INSERT INTO usertest.users (email,name,lastName,password,username)
+VALUES
+('maxim02@list.ru','Maxim','Antonov','max','max'),
+('vlad@mail.ru','Vlad','Markov','vlad','vlad');
+
+ADD ROLES SQL:
+
+INSERT INTO usertest.roles (role)
+VALUES
+('ROLE_ADMIN'),
+('ROLE_USER');
+
+ADD USERS_ROLES SQL:
+
+INSERT INTO usertest.users_roles (users_id,roles_id)
+VALUES
+(1,1),
+(2,2);
