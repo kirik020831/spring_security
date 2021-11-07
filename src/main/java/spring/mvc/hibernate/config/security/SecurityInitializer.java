@@ -1,4 +1,4 @@
-package spring.mvc.hibernate.security;
+package spring.mvc.hibernate.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

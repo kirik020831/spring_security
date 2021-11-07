@@ -1,4 +1,4 @@
-package spring.mvc.hibernate.security;
+package spring.mvc.hibernate.config.security.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

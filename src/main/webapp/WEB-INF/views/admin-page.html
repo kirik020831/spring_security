@@ -28,10 +28,10 @@
         <td th:utext="${user.getEmail()}"></td>
         <td th:utext="${user.getPassword()}"></td>
         <td>
-            <button><a th:href="@{/user/edit/{id}(id=${user.getId()})}">Update</a></button>
+            <button><a th:href="@{/admin/edit/{id}(id=${user.getId()})}">Update</a></button>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/user/delete/{id}(id=${user.getId()})}">
+            <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
                 <input type="submit" value="Delete">
             </form>
         </td>
@@ -44,7 +44,7 @@
 </button>
 <br>
 <h4>Add User :</h4>
-<input type="button" value="Add" onclick="window.location.href='user/new'"/>
+<input type="button" value="Add" onclick="window.location.href='admin/new'"/>
 <br>
 <h4>Authorization page :</h4>
 <button>
