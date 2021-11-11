@@ -1,6 +1,5 @@
 package spring.mvc.hibernate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.mvc.hibernate.dao.RoleDAO;
@@ -8,6 +7,8 @@ import spring.mvc.hibernate.model.Role;
 import spring.mvc.hibernate.model.User;
 
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class RoleServiceimpl implements RoleService {
 
@@ -19,8 +20,8 @@ public class RoleServiceimpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> listRole() {
-        return roleDAO.listRole();
+    public List<User> getListRole() {
+        return roleDAO.getListRole();
     }
 
     @Override
@@ -45,5 +46,11 @@ public class RoleServiceimpl implements RoleService {
     @Transactional
     public Role getByName(String roleName) {
         return roleDAO.getByName(roleName);
+    }
+
+    @Override
+    @Transactional
+    public Set<Role> getRoleSet(String[] role) {
+        return roleDAO.getRoleSet(role);
     }
 }

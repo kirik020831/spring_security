@@ -5,7 +5,7 @@ import spring.mvc.hibernate.model.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> listUsers();
+    List<User> getListUsers();
 
     void saveUser(User user);
 
@@ -16,5 +16,4 @@ public interface UserService {
     void delete(int id);
 
     User getUser(String userName);
-
 }

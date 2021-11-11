@@ -7,7 +7,9 @@ import spring.mvc.hibernate.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class RoleDaoImp implements RoleDAO {
@@ -17,7 +19,7 @@ public class RoleDaoImp implements RoleDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> listRole() {
+    public List<User> getListRole() {
         return entityManager.createQuery("from Role").getResultList();
     }
 
@@ -43,5 +45,14 @@ public class RoleDaoImp implements RoleDAO {
         return query
                 .setParameter("role", roleName)
                 .getSingleResult();
+    }
+
+    @Override
+    public Set<Role> getRoleSet(String[] role) {
+        Set<Role> roleSet = new HashSet<>();
+        for (String roles : role) {
+            roleSet.add(getByName(roles));
+        }
+        return roleSet;
     }
 }
